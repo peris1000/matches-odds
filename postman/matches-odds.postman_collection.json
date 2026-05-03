@@ -1,0 +1,786 @@
+{
+  "info": {
+    "_postman_id": "faca586d-3750-444f-ba20-744a3aa1bff2",
+    "name": "matches-odds",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "554780"
+  },
+  "item": [
+    {
+      "name": "actuator",
+      "item": [
+        {
+          "name": "/actuator",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{ACTUATOR_URL}}/actuator",
+              "host": [
+                "{{ACTUATOR_URL}}"
+              ],
+              "path": [
+                "actuator"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/actuator/prometheus",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{ACTUATOR_URL}}/actuator/prometheus",
+              "host": [
+                "{{ACTUATOR_URL}}"
+              ],
+              "path": [
+                "actuator",
+                "prometheus"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/actuator/refresh",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{ACTUATOR_URL}}/actuator/refresh",
+              "host": [
+                "{{ACTUATOR_URL}}"
+              ],
+              "path": [
+                "actuator",
+                "refresh"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/actuator/env",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{ACTUATOR_URL}}/actuator/env",
+              "host": [
+                "{{ACTUATOR_URL}}"
+              ],
+              "path": [
+                "actuator",
+                "env"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/actuator/env rate-limiting.enabled",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\" : \"rate-limiting.enabled\",\n    \"value\": \"false\"\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ACTUATOR_URL}}/actuator/env",
+              "host": [
+                "{{ACTUATOR_URL}}"
+              ],
+              "path": [
+                "actuator",
+                "env"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/actuator/env rate-limiting.max-requests",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\" : \"rate-limiting.max-requests\",\n    \"value\": 2\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ACTUATOR_URL}}/actuator/env",
+              "host": [
+                "{{ACTUATOR_URL}}"
+              ],
+              "path": [
+                "actuator",
+                "env"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/actuator/env rate-limiting.sliding-window",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\" : \"rate-limiting.sliding-window\",\n    \"value\": 20\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ACTUATOR_URL}}/actuator/env",
+              "host": [
+                "{{ACTUATOR_URL}}"
+              ],
+              "path": [
+                "actuator",
+                "env"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "noauth"
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "teams",
+      "item": [
+        {
+          "name": "/api/teams",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{HOST_URL}}/api/teams",
+              "host": [
+                "{{HOST_URL}}"
+              ],
+              "path": [
+                "api",
+                "teams"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/teams/paged",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{HOST_URL}}/api/teams/paged?page=0&size=10&sort=id,asc&sport=1",
+              "host": [
+                "{{HOST_URL}}"
+              ],
+              "path": [
+                "api",
+                "teams",
+                "paged"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "key": "sort",
+                  "value": "id,asc"
+                },
+                {
+                  "key": "sport",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/teams/:id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{HOST_URL}}/api/teams/1",
+              "host": [
+                "{{HOST_URL}}"
+              ],
+              "path": [
+                "api",
+                "teams",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/teams/:id/full",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{HOST_URL}}/api/teams/1/full",
+              "host": [
+                "{{HOST_URL}}"
+              ],
+              "path": [
+                "api",
+                "teams",
+                "1",
+                "full"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/teams",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"OSFP2\",\n    \"description\" : \"OSFP desc\",\n    \"sport\": \"FOOTBALL1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{HOST_URL}}/api/teams",
+              "host": [
+                "{{HOST_URL}}"
+              ],
+              "path": [
+                "api",
+                "teams"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/teams/:id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"OSFP\",\n    \"description\" : \"OSFP desc\",\n    \"sport\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{HOST_URL}}/api/teams/1",
+              "host": [
+                "{{HOST_URL}}"
+              ],
+              "path": [
+                "api",
+                "teams",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/teams/:id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{HOST_URL}}/api/teams/7",
+              "host": [
+                "{{HOST_URL}}"
+              ],
+              "path": [
+                "api",
+                "teams",
+                "7"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "basic",
+        "basic": [
+          {
+            "key": "password",
+            "value": "john",
+            "type": "string"
+          },
+          {
+            "key": "username",
+            "value": "john",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "matches",
+      "item": [
+        {
+          "name": "/api/matches",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{HOST_URL}}/api/matches",
+              "host": [
+                "{{HOST_URL}}"
+              ],
+              "path": [
+                "api",
+                "matches"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/matches/search",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{HOST_URL}}/api/matches/search?page=0&size=2&sort=id,asc&matchAfter=2026-04-27&matchBefore=2026-04-28",
+              "host": [
+                "{{HOST_URL}}"
+              ],
+              "path": [
+                "api",
+                "matches",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "2"
+                },
+                {
+                  "key": "sort",
+                  "value": "id,asc"
+                },
+                {
+                  "key": "matchAfter",
+                  "value": "2026-04-27"
+                },
+                {
+                  "key": "matchBefore",
+                  "value": "2026-04-28"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/matches/:id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{HOST_URL}}/api/matches/1",
+              "host": [
+                "{{HOST_URL}}"
+              ],
+              "path": [
+                "api",
+                "matches",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/matches",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"description\" : null,\n    \"teamA\": 4,\n    \"teamB\": 5,\n    \"sport\": \"BASKETBALL\",\n    \"matchTime\": \"2026-05-01T18:00:00\",\n    \"odds\": [\n        {\n            \"specifier\": \"2\",\n            \"odd\": 3.55\n        },\n        {\n            \"specifier\": \"1\",\n            \"odd\": 1.58\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{HOST_URL}}/api/matches",
+              "host": [
+                "{{HOST_URL}}"
+              ],
+              "path": [
+                "api",
+                "matches"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/matches/:id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"description\" : \"PAOK vs PANIONARA\",\n    \"teamA\": 4,\n    \"teamB\": 5,\n    \"sport\": \"BASKETBALL\",\n    \"matchTime\": \"2026-05-01T18:30:00\",\n    \"odds\": [\n        {\n            \"specifier\": \"2\",\n            \"odd\": 3.57\n        },\n        {\n            \"specifier\": \"1\",\n            \"odd\": 1.67\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{HOST_URL}}/api/matches/5",
+              "host": [
+                "{{HOST_URL}}"
+              ],
+              "path": [
+                "api",
+                "matches",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/matches/:id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{HOST_URL}}/api/matches/5",
+              "host": [
+                "{{HOST_URL}}"
+              ],
+              "path": [
+                "api",
+                "matches",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "basic",
+        "basic": [
+          {
+            "key": "password",
+            "value": "john",
+            "type": "string"
+          },
+          {
+            "key": "username",
+            "value": "john",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "item": [
+        {
+          "name": "/api/admin/cache/stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{HOST_URL}}/api/admin/cache/stats",
+              "host": [
+                "{{HOST_URL}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "cache",
+                "stats"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/admin/cache/stats/:name",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{HOST_URL}}/api/admin/cache/stats/teams",
+              "host": [
+                "{{HOST_URL}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "cache",
+                "stats",
+                "teams"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/admin/cache/keys/:name",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{HOST_URL}}/api/admin/cache/keys/teams",
+              "host": [
+                "{{HOST_URL}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "cache",
+                "keys",
+                "teams"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/admin/cache/evict/:name",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{HOST_URL}}/api/admin/cache/evict/matches",
+              "host": [
+                "{{HOST_URL}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "cache",
+                "evict",
+                "matches"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/admin/cache/evict/:name/:key",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{HOST_URL}}/api/admin/cache/evict/matchById/1",
+              "host": [
+                "{{HOST_URL}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "cache",
+                "evict",
+                "matchById",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "basic",
+        "basic": [
+          {
+            "key": "password",
+            "value": "admin",
+            "type": "string"
+          },
+          {
+            "key": "username",
+            "value": "admin",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "HOST_URL",
+      "value": ""
+    },
+    {
+      "key": "ACTUATOR_URL",
+      "value": "",
+      "type": "default"
+    }
+  ]
+}

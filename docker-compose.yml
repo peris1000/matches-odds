@@ -1,0 +1,104 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: matches-postgres
+    ports:
+      - "25432:5432"
+#    command: >
+#      postgres
+#      -c wal_level=logical
+#      -c max_replication_slots=10
+#      -c max_wal_senders=10
+    command: >
+      postgres
+      -c config_file=/etc/postgresql/postgresql.conf
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./config/postgres/init-multi:/docker-entrypoint-initdb.d
+      - ./config/postgres/conf/postgresql_debezium.conf:/etc/postgresql/postgresql.conf:ro
+    environment:
+#      POSTGRES_DB: matchesodds
+      POSTGRES_MULTIPLE_DATABASES: "matchesodds"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+#      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+      TZ: "UTC"
+    sysctls:
+      - net.core.somaxconn=1024
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - matches-network
+
+  redis:
+    image: redis:8.4.0
+    container_name: matches-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - matches-network
+
+  prometheus:
+    image: prom/prometheus:v3.8.0
+    container_name: matches-prometheus
+    volumes:
+      - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - matches-network
+
+#  matches-odds:
+#    build:
+#      context: ./
+#      dockerfile: Dockerfile
+#    container_name: matches-odds
+#    ports:
+#      - "8082:8082"
+#    environment:
+#      DB_URL: jdbc:postgresql://postgres:5432/matchesodds
+#    depends_on:
+#      - postgres
+#    healthcheck:
+#      test: ["CMD", "curl", "-f", "http://localhost:8083/actuator/health"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+#    networks:
+#      - matches-network
+
+
+volumes:
+  postgres_data:
+#    driver: local
+  redis_data:
+#    driver: local
+
+networks:
+  matches-network:
+    driver: bridge

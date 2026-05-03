@@ -1,0 +1,5 @@
+app:
+  rate-limiting:
+    enabled: true
+    max-requests: 3000
+    sliding-window: 10

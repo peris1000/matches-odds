@@ -1,0 +1,83 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: matches-odds
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:25432/matchesodds}
+    username: matchesodds_user
+    password: matchesodds_pass_123
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 15
+      minimum-idle: 5
+      connection-timeout: 2000
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      # for L2 cache
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+#      naming:
+#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+#        format_sql: true
+#        use_sql_comments: true
+#        generate_statistics: true
+
+management:
+  info:
+    git:
+      mode: simple
+  # changing the actuator listening port
+  server:
+    port: 8083
+  endpoints:
+    web:
+      exposure:
+        include: env,refresh,health,metrics,prometheus,loggers
+  endpoint:
+    env:
+      # enable changing env vars
+      post:
+        enabled: true
+      show-values: always
+    health:
+      show-details: always
+      show-components: always
+    restart:
+      enabled: true
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true  #  Enables histogram for HTTP request metrics
+    tags:
+      application: ${spring.application.name}
+
+logging:
+  level.org.hibernate.stat: DEBUG
+  level.org.hibernate.SQL: DEBUG
+
+app:
+  security:
+    enabled: true
+  caching:
+    enabled: true
+  audit:
+    execution-time:
+      enabled: true
+  rate-limiting:
+    enabled: true
+    max-requests: 3
+    sliding-window: 10
+
+
