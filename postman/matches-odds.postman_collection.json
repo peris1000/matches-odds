@@ -81,13 +81,13 @@
           "response": []
         },
         {
-          "name": "/actuator/env rate-limiting.enabled",
+          "name": "/actuator/env app.security.enabled",
           "request": {
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\" : \"rate-limiting.enabled\",\n    \"value\": \"false\"\n}\n",
+              "raw": "{\n    \"name\" : \"app.security.enabled\",\n    \"value\": \"false\"\n}\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -108,13 +108,13 @@
           "response": []
         },
         {
-          "name": "/actuator/env rate-limiting.max-requests",
+          "name": "/actuator/env app.rate-limiting.enabled",
           "request": {
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\" : \"rate-limiting.max-requests\",\n    \"value\": 2\n}\n",
+              "raw": "{\n    \"name\" : \"app.rate-limiting.enabled\",\n    \"value\": \"false\"\n}\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -135,13 +135,40 @@
           "response": []
         },
         {
-          "name": "/actuator/env rate-limiting.sliding-window",
+          "name": "/actuator/env app.rate-limiting.max-requests",
           "request": {
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\" : \"rate-limiting.sliding-window\",\n    \"value\": 20\n}\n",
+              "raw": "{\n    \"name\" : \"app.rate-limiting.max-requests\",\n    \"value\": 2\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ACTUATOR_URL}}/actuator/env",
+              "host": [
+                "{{ACTUATOR_URL}}"
+              ],
+              "path": [
+                "actuator",
+                "env"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/actuator/env app.rate-limiting.sliding-window",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\" : \"app.rate-limiting.sliding-window\",\n    \"value\": 20\n}\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -366,12 +393,12 @@
         "type": "basic",
         "basic": [
           {
-            "key": "password",
+            "key": "username",
             "value": "john",
             "type": "string"
           },
           {
-            "key": "username",
+            "key": "password",
             "value": "john",
             "type": "string"
           }
@@ -411,13 +438,28 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{HOST_URL}}/api/matches",
+              "raw": "{{HOST_URL}}/api/matches?page=0&size=10&sort=id,asc",
               "host": [
                 "{{HOST_URL}}"
               ],
               "path": [
                 "api",
                 "matches"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "key": "sort",
+                  "value": "id,asc",
+                  "type": "text"
+                }
               ]
             }
           },

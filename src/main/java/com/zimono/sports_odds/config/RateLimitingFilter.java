@@ -16,9 +16,9 @@ import java.io.IOException;
 @Component
 public class RateLimitingFilter extends OncePerRequestFilter {
     private final RateLimitingService service;
-    private final RateLimitingProperties properties;
+    private final AppProperties properties;
 
-    public RateLimitingFilter(RateLimitingService service, RateLimitingProperties properties) {
+    public RateLimitingFilter(RateLimitingService service, AppProperties properties) {
         this.service = service;
         this.properties = properties;
     }
@@ -28,7 +28,7 @@ public class RateLimitingFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain chain) throws ServletException, IOException {
 
-        if (!properties.isEnabled()) {
+        if (!properties.getRateLimiting().isEnabled()) {
             chain.doFilter(request, response);
             return;
         }

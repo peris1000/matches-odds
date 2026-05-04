@@ -1,6 +1,7 @@
 # Matches Odds
 
-A Spring Boot microservice for managing sports teams, matches, and betting odds. 
+A Spring Boot microservice for managing teams, matches, and matches odds.
+
 This project demonstrates modern Java practices, including caching, rate limiting, and resilient database interactions.
 
 ## Core Capabilities
@@ -98,12 +99,17 @@ $ ./mvnw spring-boot:build-image -Pnative
 Then, you can run the app like any other container:
 
 ```
-$ docker run --rm -p 8080:8080 matches-odds:1.0.0
+$ docker run --rm -p8082:8082 -p8083:8083 \
+  -e DB_URL=jdbc:postgresql://192.168.1.24:25432/matchesodds \
+  -e REDIS_HOST=192.168.1.24 \
+  -e REDIS_PORT=6379 \
+  matches-odds:1.0.0
 ```
+where `192.168.1.24` stands for and can be replaced by your host/infrastructure ip.
 
 ### Executable with Native Build Tools
 
-Use this option if you want to explore more options such as running your tests in a native image.
+Use this option if you want to explore more options, such as running your tests in a native image.
 The GraalVM `native-image` compiler should be installed and configured on your machine.
 
 NOTE: GraalVM 25+ is required.
@@ -143,7 +149,7 @@ Please review the tags of the used images and set them to the same as you're run
 ### Maven Parent overrides
 
 Test coverage report through
-```aiexclude
+```bash
 ./mvnw clean verify
 ```
 
@@ -151,6 +157,7 @@ Test coverage report through
 Once running, explore the API via Swagger UI:
 `http://localhost:8082/swagger-ui/index.html`
 
+In addition, a `postman` collection is available at `./postman` folder.
 ---
 
 ## Monitoring
@@ -158,12 +165,15 @@ Once running, explore the API via Swagger UI:
 - **Health**: `http://localhost:8083/actuator/health`
 - **Cache Mgmt**: Admin-only endpoints under `/api/admin/cache/...`
 
+The prometheus infrastructure instance is available at `http://localhost:9090`
+and preloads a scrape config for the project at `./config/prometheus` folder.
+
 ## User Credentials
 
-If security is enabled through configutaion property `app.security.enabled`
+If security is enabled (default: true) through configuration property `app.security.enabled`
 then endpoints require basic authentication credentials to serve results.
 ```
 admin:admin -> for overseeing L1 app cache endpoints (/api/admin/cache)
 john:john -> for business domain endpoints (teams, matches)
 ```
-**Actuator** and consequently prometheus/metrics endpoints require no authentication listening at different port.
+**Actuator** and consequently `prometheus` and/or `metrics` endpoints require no authentication listening at designated port.

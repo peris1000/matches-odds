@@ -1,6 +1,6 @@
 package com.zimono.sports_odds.service;
 
-import com.zimono.sports_odds.config.RateLimitingProperties;
+import com.zimono.sports_odds.config.AppProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.data.redis.connection.ReturnType;
@@ -11,23 +11,22 @@ import java.time.Duration;
 import java.time.Instant;
 
 @Service
-@RefreshScope
 public class RateLimitingService {
 
-    @Value("${spring.application.name:sports_odds}")
+    @Value("${spring.application.name:sports-odds}")
     private String appName;
 
     private final StringRedisTemplate redisTemplate;
-    private final RateLimitingProperties properties;
+    private final AppProperties properties;
 
-    public RateLimitingService(StringRedisTemplate redisTemplate, RateLimitingProperties properties) {
+    public RateLimitingService(StringRedisTemplate redisTemplate, AppProperties properties) {
         this.redisTemplate = redisTemplate;
         this.properties = properties;
     }
 
     public boolean isAllowed(String key) {
 
-        Duration windowSeconds = Duration.ofSeconds(properties.getSlidingWindow());
+        Duration windowSeconds = Duration.ofSeconds(properties.getRateLimiting().getSlidingWindow());
         long now = Instant.now().toEpochMilli();
         long windowStart = now - windowSeconds.toMillis();
 
@@ -60,7 +59,7 @@ public class RateLimitingService {
                         1,
                         redisKey.getBytes(),
                         String.valueOf(windowStart).getBytes(),
-                        String.valueOf(properties.getMaxRequests()).getBytes(),
+                        String.valueOf(properties.getRateLimiting().getMaxRequests()).getBytes(),
                         String.valueOf(now).getBytes(),
                         String.valueOf(windowSeconds.getSeconds()).getBytes()
                 ),

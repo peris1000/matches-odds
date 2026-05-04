@@ -3,10 +3,13 @@ server:
 spring:
   application:
     name: matches-odds
+  cloud:
+    refresh:
+      enabled: false
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:25432/matchesodds}
-    username: matchesodds_user
-    password: matchesodds_pass_123
+    username: ${DB_USER:matchesodds_user}
+    password: ${DB_PASS:matchesodds_pass_123}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 15
@@ -14,8 +17,8 @@ spring:
       connection-timeout: 2000
   data:
     redis:
-      host: localhost
-      port: 6379
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
       # for L2 cache
       timeout: 2000ms
       lettuce:
@@ -64,20 +67,22 @@ management:
       application: ${spring.application.name}
 
 logging:
+  file:
+    path: ${LOGS_PATH:/var/log/matches-odds}
   level.org.hibernate.stat: DEBUG
   level.org.hibernate.SQL: DEBUG
 
 app:
   security:
-    enabled: true
+    enabled: ${APP_SEC_ENABLED:true}
   caching:
-    enabled: true
+    enabled: ${APP_CACHING_ENABLED:true}
   audit:
     execution-time:
-      enabled: true
+      enabled: ${APP_AUDIT_EXEC_ENABLED:true}
   rate-limiting:
-    enabled: true
-    max-requests: 3
-    sliding-window: 10
+    enabled: ${APP_RATE_ENABLED:true}
+    max-requests: ${APP_RATE_REQUESTS:3}
+    sliding-window: ${APP_RATE_WINDOW:10}
 
 

@@ -1,7 +1,6 @@
 package com.zimono.sports_odds.config;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
@@ -23,28 +22,27 @@ public class CacheConfig {
     public static final String TEAM_BY_ID_CACHE = "teamById";
     public static final String TEAM_FULL_BY_ID_CACHE = "teamFullById";
 
-    @Bean
-    @ConditionalOnProperty(name = "app.caching.enabled", havingValue = "true", matchIfMissing = true)
-    public CaffeineCacheManager cacheManager() {
-        CaffeineCacheManager cacheManager = new CaffeineCacheManager(
-                MATCHES_CACHE, MATCH_BY_ID_CACHE, MATCHES_BY_DATE_AND_TEAMS_CACHE,
-                TEAMS_CACHE, TEAM_BY_ID_CACHE,TEAM_FULL_BY_ID_CACHE
-        );
-        cacheManager.setCaffeine(Caffeine.newBuilder()
-            .expireAfterWrite(1, TimeUnit.MINUTES)  // Auto-evict after 1 min
-            .maximumSize(1000)                              // Max 1000 entries
-            .recordStats());                                // Enable statistics
-        return cacheManager;
+    private final AppProperties properties;
+
+    public CacheConfig(AppProperties properties) {
+        this.properties = properties;
     }
 
     @Bean
-    @ConditionalOnProperty(name = "app.caching.enabled", havingValue = "false")
-    public CacheManager noOpCacheManager() {
-        // NoOpCacheManager does nothing – caching is effectively disabled
-        return new NoOpCacheManager();
-
-        // you may use ConcurrentMapCacheManager as a simple fallback
-        // return new ConcurrentMapCacheManager();
+    public CacheManager cacheManager() {
+        if (properties.getCaching().isEnabled()) {
+            CaffeineCacheManager cacheManager = new CaffeineCacheManager(
+                    MATCHES_CACHE, MATCH_BY_ID_CACHE, MATCHES_BY_DATE_AND_TEAMS_CACHE,
+                    TEAMS_CACHE, TEAM_BY_ID_CACHE, TEAM_FULL_BY_ID_CACHE
+            );
+            cacheManager.setCaffeine(Caffeine.newBuilder()
+                    .expireAfterWrite(3, TimeUnit.MINUTES)
+                    .maximumSize(1000)
+                    .recordStats());
+            return cacheManager;
+        } else {
+            return new NoOpCacheManager();
+        }
     }
 
 }

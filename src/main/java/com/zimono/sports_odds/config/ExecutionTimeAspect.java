@@ -6,23 +6,28 @@ import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 
 @Aspect
-@RefreshScope
 @Component
-@ConditionalOnProperty(name = "app.audit.execution-time.enabled")
 public class ExecutionTimeAspect {
 
     private static final Logger log = LoggerFactory.getLogger("EXECUTIONS_LOGGER");
 
+    private AppProperties properties;
+
     @Value("${app.audit.execution-time.enabled:true}")
     private boolean auditEnabled;
 
+    public ExecutionTimeAspect(AppProperties properties) {
+        this.properties = properties;
+    }
+
     @Around("@annotation(com.zimono.sports_odds.annotation.LogExecutionTime)")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+        if (!properties.getAudit().getExecutionTime().isEnabled()) {
+            return null;
+        }
         return logDuration(joinPoint);
     }
 
